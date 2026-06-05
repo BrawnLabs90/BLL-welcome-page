@@ -4,98 +4,71 @@ padding:0;
 box-sizing:border-box;
 }
 
+html,
 body{
-font-family:Poppins,sans-serif;
+width:100%;
+height:100%;
 overflow:hidden;
-height:100vh;
+}
 
-background-image:url("https://images.unsplash.com/photo-1513151233558-d860c5398176");
+body{
+
+background:url("./assets/welcome-bg.png");
+
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
-}
 
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,8,30,.75);
-z-index:1;
+font-family:Arial,sans-serif;
 }
 
 #fireworks{
+
 position:fixed;
-top:0;
-left:0;
+inset:0;
+
 width:100%;
 height:100%;
-z-index:2;
+
+z-index:10;
+pointer-events:none;
 }
 
-.content{
-position:relative;
-z-index:3;
-text-align:center;
-color:white;
-padding-top:40px;
-width:85%;
-margin:auto;
+#confetti-container{
+
+position:fixed;
+inset:0;
+
+overflow:hidden;
+
+z-index:9;
+
+pointer-events:none;
 }
 
-.congrats{
-font-family:Cinzel;
-font-size:80px;
-color:#FFD700;
-text-shadow:
-0 0 10px gold,
-0 0 20px gold,
-0 0 40px gold;
+.confetti{
+
+position:absolute;
+
+width:10px;
+height:10px;
+
+animation:fall linear infinite;
 }
 
-.company{
-margin-top:25px;
-font-family:Cinzel;
-font-size:60px;
-color:#1E90FF;
+@keyframes fall{
+
+0%{
+
+transform:
+translateY(-50px)
+rotate(0deg);
 }
 
-.tagline{
-color:red;
-font-size:32px;
-font-style:italic;
-margin-top:10px;
-}
+100%{
 
-.welcome-box{
-display:inline-block;
-margin-top:40px;
-padding:20px 50px;
-border:2px solid gold;
-border-radius:10px;
-font-size:50px;
-font-family:Cinzel;
-background:rgba(0,0,0,.35);
+transform:
+translateY(120vh)
+rotate(720deg);
 }
-
-.welcome-box span{
-color:#FFD700;
-}
-
-.greeting{
-font-size:26px;
-margin-top:25px;
-}
-
-.message{
-width:75%;
-margin:auto;
-margin-top:40px;
-font-size:24px;
-line-height:1.9;
-}
-
-.message p{
-margin-bottom:25px;
 }
