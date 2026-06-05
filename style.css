@@ -1,91 +1,101 @@
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    font-family:'Poppins',sans-serif;
-    background:#010d1f;
-    overflow:hidden;
-    color:white;
-}
+font-family:Poppins,sans-serif;
+overflow:hidden;
+height:100vh;
 
-#fireworks{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    z-index:1;
+background-image:url("https://images.unsplash.com/photo-1513151233558-d860c5398176");
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
 }
 
 .overlay{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.35);
-    z-index:2;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,8,30,.75);
+z-index:1;
 }
 
-.container{
-    position:relative;
-    z-index:3;
-    text-align:center;
-    padding-top:50px;
-    width:85%;
-    margin:auto;
-}
-
-.congrats{
-    font-family:'Cinzel',serif;
-    font-size:70px;
-    color:#FFD700;
-    text-shadow:0 0 25px gold;
-    margin-bottom:20px;
-}
-
-.company-name{
-    font-family:'Cinzel',serif;
-    font-size:60px;
-    color:#2E86FF;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-.tagline{
-    color:red;
-    font-size:28px;
-    font-style:italic;
-    margin-bottom:30px;
-}
-
-.welcome-box{
-    display:inline-block;
-    padding:18px 50px;
-    border:2px solid gold;
-    border-radius:12px;
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(5px);
-    font-size:40px;
-    font-weight:600;
-    margin-bottom:25px;
-}
-
-.greeting{
-    font-size:24px;
-    margin-bottom:30px;
+#fireworks{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:2;
 }
 
 .content{
-    width:75%;
-    margin:auto;
-    font-size:22px;
-    line-height:1.8;
+position:relative;
+z-index:3;
+text-align:center;
+color:white;
+padding-top:40px;
+width:85%;
+margin:auto;
 }
 
-.content p{
-    margin-bottom:25px;
+.congrats{
+font-family:Cinzel;
+font-size:80px;
+color:#FFD700;
+text-shadow:
+0 0 10px gold,
+0 0 20px gold,
+0 0 40px gold;
+}
+
+.company{
+margin-top:25px;
+font-family:Cinzel;
+font-size:60px;
+color:#1E90FF;
+}
+
+.tagline{
+color:red;
+font-size:32px;
+font-style:italic;
+margin-top:10px;
+}
+
+.welcome-box{
+display:inline-block;
+margin-top:40px;
+padding:20px 50px;
+border:2px solid gold;
+border-radius:10px;
+font-size:50px;
+font-family:Cinzel;
+background:rgba(0,0,0,.35);
+}
+
+.welcome-box span{
+color:#FFD700;
+}
+
+.greeting{
+font-size:26px;
+margin-top:25px;
+}
+
+.message{
+width:75%;
+margin:auto;
+margin-top:40px;
+font-size:24px;
+line-height:1.9;
+}
+
+.message p{
+margin-bottom:25px;
 }
