@@ -1,275 +1,341 @@
-const canvas =
-document.getElementById("fireworks");
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
 
-const ctx =
-canvas.getContext("2d");
-
-function resize(){
-
-canvas.width =
-window.innerWidth;
-
-canvas.height =
-window.innerHeight;
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
 
-resize();
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
 
-window.addEventListener(
-"resize",
-resize
-);
+let rockets = [];
+let particles = [];
 
-let rockets=[];
-let particles=[];
+/* ==========================
+   ROCKET
+========================== */
 
-class Rocket{
+class Rocket {
 
-constructor(){
+    constructor(side) {
 
-this.x=
-Math.random()*canvas.width;
+        if (side === "left") {
+            this.x = 100;
+        } else {
+            this.x = canvas.width - 100;
+        }
 
-this.y=
-canvas.height+20;
+        this.y = canvas.height + 20;
 
-this.speed=
-10+
-Math.random()*4;
+        this.targetX =
+            canvas.width * (0.25 + Math.random() * 0.5);
 
-this.target=
-100+
-Math.random()*250;
+        this.targetY =
+            80 + Math.random() * 220;
+
+        this.speed = 0.025;
+
+        this.progress = 0;
+    }
+
+    update() {
+
+        this.progress += this.speed;
+
+        let t = this.progress;
+
+        let x =
+            this.x +
+            (this.targetX - this.x) * t;
+
+        let y =
+            this.y +
+            (this.targetY - this.y) * t;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+
+        ctx.lineTo(
+            x - 20,
+            y + 40
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,180,50,0.7)";
+
+        ctx.lineWidth = 2;
+
+        ctx.stroke();
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle = "#fff";
+
+        ctx.fill();
+
+        if (this.progress >= 1) {
+
+            createExplosion(
+                this.targetX,
+                this.targetY
+            );
+
+            return false;
+        }
+
+        return true;
+    }
 }
 
-update(){
+/* ==========================
+   PARTICLE
+========================== */
 
-this.y-=this.speed;
+class Particle {
 
-ctx.beginPath();
+    constructor(x, y, color) {
 
-ctx.arc(
-this.x,
-this.y,
-3,
-0,
-Math.PI*2
-);
+        this.x = x;
+        this.y = y;
 
-ctx.fillStyle="#ffffff";
-ctx.fill();
+        this.color = color;
 
-ctx.beginPath();
+        this.angle =
+            Math.random() * Math.PI * 2;
 
-ctx.moveTo(this.x,this.y);
+        this.speed =
+            Math.random() * 8 + 2;
 
-ctx.lineTo(
-this.x,
-this.y+25
-);
+        this.life = 120;
 
-ctx.strokeStyle=
-"rgba(255,200,100,.8)";
+        this.size =
+            Math.random() * 3 + 1;
+    }
 
-ctx.lineWidth=2;
+    update() {
 
-ctx.stroke();
+        this.x +=
+            Math.cos(this.angle) *
+            this.speed;
 
-if(this.y<=this.target){
+        this.y +=
+            Math.sin(this.angle) *
+            this.speed;
 
-explode(
-this.x,
-this.y
-);
+        this.speed *= 0.97;
 
-return false;
+        this.life--;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            this.x,
+            this.y,
+            this.size,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            this.color;
+
+        ctx.fill();
+    }
 }
 
-return true;
-}
-}
+/* ==========================
+   FIREWORK EXPLOSION
+========================== */
 
-class Particle{
+function createExplosion(x, y) {
 
-constructor(
-x,
-y,
-color
-){
+    const colors = [
 
-this.x=x;
-this.y=y;
+        "#FFD700",
+        "#FF4500",
+        "#FFFFFF",
+        "#00FFFF",
+        "#00FF99",
+        "#FFA500"
 
-this.color=color;
+    ];
 
-this.angle=
-Math.random()*
-Math.PI*2;
+    for (let i = 0; i < 220; i++) {
 
-this.speed=
-Math.random()*10+2;
+        particles.push(
 
-this.life=100;
-}
-
-update(){
-
-this.x+=
-Math.cos(
-this.angle
-)*this.speed;
-
-this.y+=
-Math.sin(
-this.angle
-)*this.speed;
-
-this.speed*=0.96;
-
-this.life--;
-
-ctx.beginPath();
-
-ctx.arc(
-this.x,
-this.y,
-2,
-0,
-Math.PI*2
-);
-
-ctx.fillStyle=
-this.color;
-
-ctx.fill();
-}
+            new Particle(
+                x,
+                y,
+                colors[
+                    Math.floor(
+                        Math.random() *
+                        colors.length
+                    )
+                ]
+            )
+        );
+    }
 }
 
-function explode(x,y){
+/* ==========================
+   SPARKLES
+========================== */
 
-const colors=[
+function drawSparkles() {
 
-"#FFD700",
-"#FF0000",
-"#00FFFF",
-"#00FF00",
-"#FFFFFF",
-"#FFA500"
+    for (let i = 0; i < 20; i++) {
 
-];
+        let x =
+            Math.random() *
+            canvas.width;
 
-for(
-let i=0;
-i<220;
-i++
-){
+        let y =
+            Math.random() *
+            canvas.height;
 
-particles.push(
+        ctx.beginPath();
 
-new Particle(
-x,
-y,
-colors[
-Math.floor(
-Math.random()*
-colors.length
-)
-]
-)
-);
-}
+        ctx.arc(
+            x,
+            y,
+            1.5,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            "rgba(255,215,0,0.4)";
+
+        ctx.fill();
+    }
 }
 
-function animate(){
+/* ==========================
+   CONFETTI
+========================== */
 
-requestAnimationFrame(
-animate
-);
+const confettiContainer =
+    document.getElementById(
+        "confetti-container"
+    );
 
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
+function createConfetti() {
 
-if(
-Math.random()<0.03
-){
+    const confetti =
+        document.createElement("div");
 
-rockets.push(
-new Rocket()
-);
-}
+    confetti.className =
+        "confetti";
 
-rockets=
-rockets.filter(
-r=>r.update()
-);
+    confetti.style.left =
+        Math.random() * 100 + "%";
 
-particles=
-particles.filter(
-p=>{
+    const colors = [
 
-p.update();
+        "#FFD700",
+        "#FF0000",
+        "#00FFFF",
+        "#FFFFFF",
+        "#FFA500"
 
-return p.life>0;
-}
-);
-}
+    ];
 
-animate();
+    confetti.style.background =
+        colors[
+            Math.floor(
+                Math.random() *
+                colors.length
+            )
+        ];
 
-const confettiContainer=
-document.getElementById(
-"confetti-container"
-);
+    confetti.style.animationDuration =
+        (
+            4 +
+            Math.random() * 6
+        ) + "s";
 
-function createConfetti(){
+    confettiContainer.appendChild(
+        confetti
+    );
 
-const div=
-document.createElement(
-"div"
-);
+    setTimeout(() => {
 
-div.className=
-"confetti";
+        confetti.remove();
 
-div.style.left=
-Math.random()*100+
-"%";
-
-div.style.background=
-[
-"#FFD700",
-"#FF0000",
-"#00FFFF",
-"#FFFFFF",
-"#FFA500"
-][
-Math.floor(
-Math.random()*5
-)
-];
-
-div.style.animationDuration=
-(
-4+
-Math.random()*6
-)+"s";
-
-confettiContainer.appendChild(
-div
-);
-
-setTimeout(()=>{
-
-div.remove();
-
-},10000);
+    }, 10000);
 }
 
 setInterval(
-createConfetti,
-120
+    createConfetti,
+    150
 );
+
+/* ==========================
+   ROCKET LAUNCH
+========================== */
+
+setInterval(() => {
+
+    rockets.push(
+        new Rocket("left")
+    );
+
+}, 2500);
+
+setInterval(() => {
+
+    rockets.push(
+        new Rocket("right")
+    );
+
+}, 2800);
+
+/* ==========================
+   ANIMATION LOOP
+========================== */
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    drawSparkles();
+
+    rockets =
+        rockets.filter(
+            rocket =>
+                rocket.update()
+        );
+
+    particles =
+        particles.filter(
+            particle => {
+
+                particle.update();
+
+                return (
+                    particle.life > 0
+                );
+            }
+        );
+}
+
+animate();
