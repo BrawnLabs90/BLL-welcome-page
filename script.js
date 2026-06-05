@@ -31,10 +31,11 @@ this.x=
 Math.random()*canvas.width;
 
 this.y=
-canvas.height;
+canvas.height+20;
 
 this.speed=
-8+Math.random()*4;
+10+
+Math.random()*4;
 
 this.target=
 100+
@@ -55,25 +56,22 @@ this.y,
 Math.PI*2
 );
 
-ctx.fillStyle=
-"#ffffff";
-
+ctx.fillStyle="#ffffff";
 ctx.fill();
 
 ctx.beginPath();
 
-ctx.moveTo(
-this.x,
-this.y
-);
+ctx.moveTo(this.x,this.y);
 
 ctx.lineTo(
 this.x,
-this.y+20
+this.y+25
 );
 
 ctx.strokeStyle=
-"rgba(255,255,255,.4)";
+"rgba(255,200,100,.8)";
+
+ctx.lineWidth=2;
 
 ctx.stroke();
 
@@ -109,9 +107,9 @@ Math.random()*
 Math.PI*2;
 
 this.speed=
-Math.random()*8+2;
+Math.random()*10+2;
 
-this.life=120;
+this.life=100;
 }
 
 update(){
@@ -126,7 +124,7 @@ Math.sin(
 this.angle
 )*this.speed;
 
-this.speed*=0.97;
+this.speed*=0.96;
 
 this.life--;
 
@@ -162,7 +160,7 @@ const colors=[
 
 for(
 let i=0;
-i<180;
+i<220;
 i++
 ){
 
@@ -229,48 +227,49 @@ document.getElementById(
 
 function createConfetti(){
 
-const piece=
+const div=
 document.createElement(
 "div"
 );
 
-piece.className=
+div.className=
 "confetti";
 
-piece.style.left=
+div.style.left=
 Math.random()*100+
 "%";
 
-piece.style.background=
+div.style.background=
 [
 "#FFD700",
 "#FF0000",
 "#00FFFF",
-"#FFFFFF"
+"#FFFFFF",
+"#FFA500"
 ][
 Math.floor(
-Math.random()*4
+Math.random()*5
 )
 ];
 
-piece.style.animationDuration=
+div.style.animationDuration=
 (
-5+
-Math.random()*5
+4+
+Math.random()*6
 )+"s";
 
 confettiContainer.appendChild(
-piece
+div
 );
 
 setTimeout(()=>{
 
-piece.remove();
+div.remove();
 
 },10000);
 }
 
 setInterval(
 createConfetti,
-150
+120
 );
