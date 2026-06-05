@@ -1,123 +1,87 @@
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-let rockets = [];
 let particles = [];
-
-class Rocket {
-
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height;
-        this.speed = 8 + Math.random() * 3;
-        this.targetY = 100 + Math.random() * 250;
-        this.color = "white";
-    }
-
-    update() {
-
-        this.y -= this.speed;
-
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x, this.y + 20);
-        ctx.strokeStyle = "rgba(255,255,255,0.4)";
-        ctx.stroke();
-
-        if (this.y <= this.targetY) {
-            explode(this.x, this.y);
-            return false;
-        }
-
-        return true;
-    }
-}
 
 class Particle {
 
-    constructor(x, y, color) {
+constructor(x,y,color){
 
-        this.x = x;
-        this.y = y;
-        this.color = color;
+this.x=x;
+this.y=y;
 
-        this.angle = Math.random() * Math.PI * 2;
-        this.speed = Math.random() * 8 + 2;
+this.color=color;
 
-        this.life = 100;
-        this.size = Math.random() * 3 + 1;
-    }
+this.angle=Math.random()*Math.PI*2;
+this.speed=Math.random()*8+2;
 
-    update() {
-
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-
-        this.speed *= 0.97;
-        this.life--;
-
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
+this.life=120;
 }
 
-function explode(x, y) {
+update(){
 
-    const colors = [
-        "#ff0000",
-        "#00ff00",
-        "#00ffff",
-        "#ffff00",
-        "#ff00ff",
-        "#ffffff",
-        "#ffa500",
-        "#FFD700"
-    ];
+this.x+=Math.cos(this.angle)*this.speed;
+this.y+=Math.sin(this.angle)*this.speed;
 
-    for (let i = 0; i < 180; i++) {
+this.speed*=0.97;
+this.life--;
 
-        particles.push(
-            new Particle(
-                x,
-                y,
-                colors[Math.floor(Math.random() * colors.length)]
-            )
-        );
-    }
+ctx.beginPath();
+ctx.arc(this.x,this.y,2,0,Math.PI*2);
+ctx.fillStyle=this.color;
+ctx.fill();
+}
 }
 
-function animate() {
+function createFirework(){
 
-    requestAnimationFrame(animate);
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
 
-    ctx.fillStyle = "rgba(0,0,0,0.15)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+const colors=[
+"#FFD700",
+"#FF0000",
+"#00FFFF",
+"#00FF00",
+"#FFFFFF",
+"#FFA500"
+];
 
-    if (Math.random() < 0.04) {
-        rockets.push(new Rocket());
-    }
+for(let i=0;i<150;i++){
 
-    rockets = rockets.filter(rocket => rocket.update());
+particles.push(
+new Particle(
+x,
+y,
+colors[Math.floor(Math.random()*colors.length)]
+));
+}
+}
 
-    particles = particles.filter(particle => {
-        particle.update();
-        return particle.life > 0;
-    });
+setInterval(createFirework,1200);
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles=particles.filter(p=>{
+
+p.update();
+
+return p.life>0;
+});
 }
 
 animate();
+
+window.addEventListener("resize",()=>{
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+});
