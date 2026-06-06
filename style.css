@@ -17,8 +17,7 @@ body{
     position:fixed;
     inset:0;
 
-    background-image:
-    url("assets/welcome-bg.png");
+    background-image:url("brawn-welcome-bg.png");
 
     background-position:center;
     background-repeat:no-repeat;
