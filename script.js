@@ -1,68 +1,92 @@
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
+/* ==========================
+   CANVAS RESIZE
+========================== */
+
 function resizeCanvas() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
 
 resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+/* ==========================
+   ARRAYS
+========================== */
 
 let rockets = [];
 let particles = [];
+let sparkles = [];
 
 /* ==========================
-   ROCKET
+   ROCKET CLASS
 ========================== */
 
 class Rocket {
 
     constructor(side) {
 
-        if (side === "left") {
-            this.x = 100;
-        } else {
-            this.x = canvas.width - 100;
-        }
+        this.startX =
+            side === "left"
+            ? 80
+            : canvas.width - 80;
 
-        this.y = canvas.height + 20;
+        this.startY =
+            canvas.height + 30;
 
         this.targetX =
-            canvas.width * (0.25 + Math.random() * 0.5);
+            canvas.width * (
+                0.25 +
+                Math.random() * 0.5
+            );
 
         this.targetY =
-            80 + Math.random() * 220;
-
-        this.speed = 0.025;
+            120 +
+            Math.random() * 220;
 
         this.progress = 0;
+
+        this.speed =
+            0.02 +
+            Math.random() * 0.015;
     }
 
     update() {
 
         this.progress += this.speed;
 
-        let t = this.progress;
-
         let x =
-            this.x +
-            (this.targetX - this.x) * t;
+            this.startX +
+            (
+                this.targetX -
+                this.startX
+            ) * this.progress;
 
         let y =
-            this.y +
-            (this.targetY - this.y) * t;
+            this.startY +
+            (
+                this.targetY -
+                this.startY
+            ) * this.progress;
 
         ctx.beginPath();
+
         ctx.moveTo(x, y);
 
         ctx.lineTo(
-            x - 20,
-            y + 40
+            x - 15,
+            y + 30
         );
 
         ctx.strokeStyle =
-            "rgba(255,180,50,0.7)";
+            "rgba(255,200,50,0.8)";
 
         ctx.lineWidth = 2;
 
@@ -78,13 +102,16 @@ class Rocket {
             Math.PI * 2
         );
 
-        ctx.fillStyle = "#fff";
+        ctx.fillStyle =
+            "#ffffff";
 
         ctx.fill();
 
-        if (this.progress >= 1) {
+        if (
+            this.progress >= 1
+        ) {
 
-            createExplosion(
+            explode(
                 this.targetX,
                 this.targetY
             );
@@ -97,12 +124,16 @@ class Rocket {
 }
 
 /* ==========================
-   PARTICLE
+   PARTICLE CLASS
 ========================== */
 
 class Particle {
 
-    constructor(x, y, color) {
+    constructor(
+        x,
+        y,
+        color
+    ) {
 
         this.x = x;
         this.y = y;
@@ -110,7 +141,8 @@ class Particle {
         this.color = color;
 
         this.angle =
-            Math.random() * Math.PI * 2;
+            Math.random() *
+            Math.PI * 2;
 
         this.speed =
             Math.random() * 8 + 2;
@@ -124,12 +156,14 @@ class Particle {
     update() {
 
         this.x +=
-            Math.cos(this.angle) *
-            this.speed;
+            Math.cos(
+                this.angle
+            ) * this.speed;
 
         this.y +=
-            Math.sin(this.angle) *
-            this.speed;
+            Math.sin(
+                this.angle
+            ) * this.speed;
 
         this.speed *= 0.97;
 
@@ -156,20 +190,27 @@ class Particle {
    FIREWORK EXPLOSION
 ========================== */
 
-function createExplosion(x, y) {
+function explode(
+    x,
+    y
+) {
 
     const colors = [
 
         "#FFD700",
-        "#FF4500",
+        "#FFA500",
         "#FFFFFF",
+        "#FF4040",
         "#00FFFF",
-        "#00FF99",
-        "#FFA500"
+        "#00FF99"
 
     ];
 
-    for (let i = 0; i < 220; i++) {
+    for (
+        let i = 0;
+        i < 220;
+        i++
+    ) {
 
         particles.push(
 
@@ -183,42 +224,49 @@ function createExplosion(x, y) {
                     )
                 ]
             )
+
         );
     }
 }
 
 /* ==========================
-   SPARKLES
+   GOLDEN SPARKLES
 ========================== */
 
-function drawSparkles() {
+function createSparkles() {
 
-    for (let i = 0; i < 20; i++) {
+    sparkles.push({
 
-        let x =
+        x:
             Math.random() *
-            canvas.width;
+            canvas.width,
 
-        let y =
+        y:
             Math.random() *
-            canvas.height;
+            canvas.height,
 
-        ctx.beginPath();
+        radius:
+            Math.random() * 2 + 1,
 
-        ctx.arc(
-            x,
-            y,
-            1.5,
-            0,
-            Math.PI * 2
-        );
+        alpha:
+            Math.random(),
 
-        ctx.fillStyle =
-            "rgba(255,215,0,0.4)";
+        speed:
+            Math.random() * 0.01
+    });
 
-        ctx.fill();
+    if (
+        sparkles.length > 120
+    ) {
+
+        sparkles.shift();
     }
 }
+
+setInterval(
+    createSparkles,
+    200
+);
 
 /* ==========================
    CONFETTI
@@ -231,26 +279,29 @@ const confettiContainer =
 
 function createConfetti() {
 
-    const confetti =
-        document.createElement("div");
+    const piece =
+        document.createElement(
+            "div"
+        );
 
-    confetti.className =
+    piece.className =
         "confetti";
 
-    confetti.style.left =
-        Math.random() * 100 + "%";
+    piece.style.left =
+        Math.random() * 100 +
+        "%";
 
     const colors = [
 
         "#FFD700",
-        "#FF0000",
-        "#00FFFF",
         "#FFFFFF",
-        "#FFA500"
+        "#FFA500",
+        "#00FFFF",
+        "#FF4040"
 
     ];
 
-    confetti.style.background =
+    piece.style.background =
         colors[
             Math.floor(
                 Math.random() *
@@ -258,21 +309,21 @@ function createConfetti() {
             )
         ];
 
-    confetti.style.animationDuration =
+    piece.style.animationDuration =
         (
-            4 +
+            5 +
             Math.random() * 6
         ) + "s";
 
     confettiContainer.appendChild(
-        confetti
+        piece
     );
 
     setTimeout(() => {
 
-        confetti.remove();
+        piece.remove();
 
-    }, 10000);
+    }, 12000);
 }
 
 setInterval(
@@ -281,7 +332,7 @@ setInterval(
 );
 
 /* ==========================
-   ROCKET LAUNCH
+   ROCKET LAUNCHERS
 ========================== */
 
 setInterval(() => {
@@ -301,7 +352,40 @@ setInterval(() => {
 }, 2800);
 
 /* ==========================
-   ANIMATION LOOP
+   DRAW SPARKLES
+========================== */
+
+function drawSparkles() {
+
+    sparkles.forEach(
+
+        sparkle => {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                sparkle.x,
+                sparkle.y,
+                sparkle.radius,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.fillStyle =
+                `rgba(
+                    255,
+                    215,
+                    0,
+                    ${sparkle.alpha}
+                )`;
+
+            ctx.fill();
+        }
+    );
+}
+
+/* ==========================
+   MAIN ANIMATION
 ========================== */
 
 function animate() {
