@@ -1,7 +1,3 @@
-/* ==========================
-   RESET
-========================== */
-
 *{
     margin:0;
     padding:0;
@@ -13,52 +9,24 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
+    background:#000;
 }
 
-/* ==========================
-   BODY
-========================== */
-
-body{
-
-    font-family:'Poppins',sans-serif;
-
-    background:
-    radial-gradient(
-    circle at center,
-    #123c88 0%,
-    #081d4a 35%,
-    #04112d 70%,
-    #000000 100%
-    );
-
-    color:#ffffff;
-
-    position:relative;
-}
-
-/* ==========================
-   GOLD GLOW
-========================== */
-
-.background-glow{
+.poster{
 
     position:fixed;
     inset:0;
 
-    background:
-    radial-gradient(
-    circle at center,
-    rgba(212,175,55,.08),
-    transparent 70%
-    );
+    background-image:
+    url("assets/welcome-bg.png");
+
+    background-position:center;
+    background-repeat:no-repeat;
+
+    background-size:cover;
 
     z-index:1;
 }
-
-/* ==========================
-   FIREWORKS
-========================== */
 
 #fireworks{
 
@@ -73,20 +41,16 @@ body{
     pointer-events:none;
 }
 
-/* ==========================
-   CONFETTI
-========================== */
-
 #confetti-container{
 
     position:fixed;
     inset:0;
 
+    z-index:3;
+
     overflow:hidden;
 
     pointer-events:none;
-
-    z-index:3;
 }
 
 .confetti{
@@ -96,8 +60,6 @@ body{
     width:10px;
     height:14px;
 
-    opacity:.95;
-
     animation:fall linear infinite;
 }
 
@@ -105,343 +67,13 @@ body{
 
     from{
         transform:
-        translateY(-40px)
+        translateY(-30px)
         rotate(0deg);
     }
 
     to{
         transform:
-        translateY(120vh)
+        translateY(110vh)
         rotate(720deg);
-    }
-}
-
-/* ==========================
-   PAGE WRAPPER
-========================== */
-
-.page-wrapper{
-
-    position:absolute;
-
-    top:50%;
-    left:50%;
-
-    transform:
-    translate(-50%,-50%)
-    scale(.82);
-
-    width:1400px;
-
-    max-width:96vw;
-
-    text-align:center;
-
-    z-index:10;
-}
-
-/* ==========================
-   TOP ORNAMENT
-========================== */
-
-.top-decoration{
-
-    color:#d4af37;
-
-    font-size:22px;
-
-    margin-bottom:15px;
-}
-
-/* ==========================
-   CONGRATULATIONS
-========================== */
-
-.laurel-container{
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    gap:20px;
-}
-
-.laurel{
-
-    color:#d4af37;
-
-    font-size:42px;
-}
-
-.congratulations{
-
-    font-family:'Cinzel',serif;
-
-    color:#d4af37;
-
-    font-size:64px;
-
-    font-weight:700;
-
-    letter-spacing:2px;
-
-    text-shadow:
-    0 0 10px rgba(212,175,55,.4);
-}
-
-.title-divider{
-
-    width:260px;
-    height:2px;
-
-    background:#d4af37;
-
-    margin:15px auto;
-}
-
-/* ==========================
-   STARS
-========================== */
-
-.star-row{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:12px;
-
-    color:#d4af37;
-
-    margin-bottom:18px;
-}
-
-.big-star{
-
-    transform:scale(1.4);
-}
-
-/* ==========================
-   COMPANY
-========================== */
-
-.company-name{
-
-    font-family:'Cinzel',serif;
-
-    color:#2d79ff;
-
-    font-size:42px;
-
-    font-weight:700;
-
-    text-transform:uppercase;
-
-    text-shadow:
-    0 0 20px rgba(45,121,255,.5);
-}
-
-/* ==========================
-   TAGLINE
-========================== */
-
-.tagline-wrapper{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-top:10px;
-}
-
-.tag-line-left,
-.tag-line-right{
-
-    width:90px;
-    height:2px;
-
-    background:#d4af37;
-}
-
-.tagline{
-
-    color:#ff4040;
-
-    font-size:22px;
-
-    font-style:italic;
-
-    font-weight:600;
-}
-
-/* ==========================
-   WELCOME
-========================== */
-
-.welcome-section{
-
-    margin-top:25px;
-}
-
-.welcome-box{
-
-    display:inline-flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    min-width:700px;
-
-    padding:12px 40px;
-
-    border:2px solid #d4af37;
-
-    border-radius:4px;
-
-    background:
-    rgba(255,255,255,.03);
-
-    box-shadow:
-    0 0 15px rgba(212,175,55,.15);
-}
-
-.welcome-text{
-
-    font-family:'Cinzel',serif;
-
-    font-size:34px;
-}
-
-.welcome-text span{
-
-    color:#d4af37;
-}
-
-/* ==========================
-   GREETING
-========================== */
-
-.greeting-section{
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-    margin-top:20px;
-}
-
-.line{
-
-    width:120px;
-    height:1px;
-
-    background:#d4af37;
-}
-
-.greeting-text{
-
-    font-size:18px;
-}
-
-.greeting-text span{
-
-    color:#2d79ff;
-}
-
-/* ==========================
-   ORNAMENT
-========================== */
-
-.ornament{
-
-    color:#d4af37;
-
-    font-size:20px;
-
-    margin-top:15px;
-}
-
-/* ==========================
-   CONTENT
-========================== */
-
-.content-section{
-
-    width:78%;
-
-    margin:15px auto;
-
-    font-size:17px;
-
-    line-height:1.8;
-}
-
-.content-section p{
-
-    margin-bottom:15px;
-}
-
-.small-divider{
-
-    width:140px;
-    height:1px;
-
-    background:
-    rgba(212,175,55,.5);
-
-    margin:15px auto;
-}
-
-.highlight-blue{
-
-    color:#2d79ff;
-}
-
-.highlight-gold{
-
-    color:#d4af37;
-}
-
-/* ==========================
-   RESPONSIVE
-========================== */
-
-@media(max-width:1200px){
-
-    .page-wrapper{
-
-        transform:
-        translate(-50%,-50%)
-        scale(.72);
-    }
-}
-
-@media(max-width:992px){
-
-    .page-wrapper{
-
-        transform:
-        translate(-50%,-50%)
-        scale(.60);
-    }
-}
-
-@media(max-height:800px){
-
-    .page-wrapper{
-
-        transform:
-        translate(-50%,-50%)
-        scale(.68);
     }
 }
